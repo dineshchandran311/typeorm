@@ -9,18 +9,20 @@ import { createTransactionRouter } from "./routes/create_transaction";
 import { connectBankerClientRouter } from "./routes/connect_banker_client";
 import { deleteClientRouter } from "./routes/delete_client";
 import { fetchClientRouter } from "./routes/fetch_client";
+import dotenv from "dotenv";
 
 const app = express();
 const port = process.env.PORT || 8080;
+dotenv.config();
 
 const main = async () => {
   try {
     const connection = await createConnection({
       type: "postgres",
-      host: "localhost",
-      port: 5432,
-      username: "postgres",
-      password: "1234",
+      host: process.env.HOST,
+      port: parseInt(process.env.PORT?.toString() + ""),
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
       database: "typeorm",
       entities: [Client, Banker, Transaction],
       synchronize: true,
